@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <h:outputStylesheet library="styles" name="main_style.css"/>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <div class="block-container">
+        <div class="block">
+            <h:form id="form">
+                X:
+                <h:selectOneMenu value="#{paramBean.x}">
+                    <f:selectItem itemValue="-5" itemLabel="-5"/>
+                    <f:selectItem itemValue="-4" itemLabel="-4"/>
+                    <f:selectItem itemValue="-3" itemLabel="-3"/>
+                    <f:selectItem itemValue="-2" itemLabel="-2"/>
+                    <f:selectItem itemValue="-1" itemLabel="-1"/>
+                    <f:selectItem itemValue="0" itemLabel="0"/>
+                    <f:selectItem itemValue="1" itemLabel="1"/>
+                    <f:selectItem itemValue="2" itemLabel="2"/>
+                    <f:selectItem itemValue="3" itemLabel="3"/>
+                    <f:ajax execute="@this" render="@this"/>
+                </h:selectOneMenu>
+                <br/>
+                <br/>
+
+                <h:outputLabel for="y" value="Y: "/>
+                <h:inputText value="#{paramBean.y}" id="y" maxlength="17" placeholder="от -5 до 5">
+                    <p:ajax event="keyup" update="errorMessage"/>
+                    <f:validator validatorId="YValidator"/>
+                </h:inputText>
+                <br/>
+                <br/>
+
+                R:
+                <p:selectBooleanCheckbox value="#{paramBean.r1}" itemLabel="1" id="r1" widgetVar="widget1">
+                    <p:ajax execute="@this" render="@this" update="r2 r3 r4 r5" oncomplete="redrawPicture()"/>
+                </p:selectBooleanCheckbox>
+                <p:selectBooleanCheckbox value="#{paramBean.r2}" itemLabel="2" id="r2" widgetVar="widget2">
+                    <p:ajax execute="@this" render="@this" update="r1 r3 r4 r5" oncomplete="redrawPicture()"/>
+                </p:selectBooleanCheckbox>
+                <p:selectBooleanCheckbox value="#{paramBean.r3}" itemLabel="3" id="r3" widgetVar="widget3">
+                    <p:ajax execute="@this" render="@this" update="r1 r2 r4 r5" oncomplete="redrawPicture()"/>
+                </p:selectBooleanCheckbox>
+                <p:selectBooleanCheckbox value="#{paramBean.r4}" itemLabel="4" id="r4" widgetVar="widget4">
+                    <p:ajax execute="@this" render="@this" update="r1 r2 r3 r5" oncomplete="redrawPicture()"/>
+                </p:selectBooleanCheckbox>
+                <p:selectBooleanCheckbox value="#{paramBean.r5}" itemLabel="5" id="r5" widgetVar="widget5">
+                    <p:ajax execute="@this" render="@this" update="r1 r2 r3 r4" oncomplete="redrawPicture()"/>
+                </p:selectBooleanCheckbox>
+                <br/>
+                <br/>
+
+                <span id="error">
+                    <h:message id="errorMessage" for="y"/>
+                </span>
+                <br/>
+                <br/>
+
+                <h:commandButton value="submit" action="#{paramBean.addDotButton()}" onclick="return checkY()">
+                    <f:actionListener binding="#{dotsAmountBean.updateDots()}" />
+                    <f:actionListener binding="#{dotsPercentsBean.updatePercent()}" />
+                    <p:ajax update="valuesTable dotsAmount dotsPercents" oncomplete="redrawPicture()" />
+                </h:commandButton>
+                <h:commandButton value="clear table" action="#{paramBean.clear()}">
+                    <f:actionListener binding="#{dotsAmountBean.updateDots()}" />
+                    <f:actionListener binding="#{dotsPercentsBean.updatePercent()}" />
+                    <p:ajax update="valuesTable dotsAmount dotsPercents" oncomplete="redrawPicture()"/>
+                </h:commandButton>
+                <br/>
+                <br/>
+
+                <h:button value="move to start page" outcome="mvToStartPage"/>
+                <br/>
+                <br/>
+
+                <span>
+                    <h:outputText id="dotsAmount" value="#{pointCounter.totalPoints}"/>
+                    <h:outputText id="dotsPercents" value="#{missPercentage.hitPercent}"/>
+                </span>
+
+                <h:inputHidden id="hiddenX" value="#{graphBean.x}" />
+                <h:inputHidden id="hiddenY" value="#{graphBean.y}" />
+                <h:inputHidden id="hiddenR" value="#{graphBean.r}" />
+                <p:remoteCommand name="callAddDot" action="#{paramBean.addDotMouse(graphBean.x, graphBean.y, graphBean.r)}" update="valuesTable dotsAmount dotsPercents" oncomplete="redrawPicture()" >
+                    <f:actionListener binding="#{dotsAmountBean.updateDots()}" />
+                    <f:actionListener binding="#{dotsPercentsBean.updatePercent()}" />
+                </p:remoteCommand>
+
+            </h:form>
+        </div>
+
+        <div class="block">
+            <canvas id="myCanvas" width="300" height="300"/>
+        </div>
+
+        <div class="block" id="table">
+                <h:dataTable id="valuesTable" value="#{paramBean.dotsList}" var="entry" border="1">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        #{entry.x}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        #{entry.y}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        #{entry.r}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Current Time</f:facet>
+                        #{entry.currentTime}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Script Time (nanosec)</f:facet>
+                        #{entry.scriptTime}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Result</f:facet>
+                        #{entry.result}
+                    </h:column>
+                </h:dataTable>
+        </div>
+    </div>
+
+    <h:outputScript library="js" name="canvas.js"/>
+    <h:outputScript library="js" name="main.js"/>
+
+</h:body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>lab3</title>
+    <h:outputStylesheet library="styles" name="start_style.css"/>
+</h:head>
+
+<h:body>
+    <div class="header">
+        <h1>Чеее, P3216, Вариант 23812</h1>
+    </div>
+
+    <div class="block-container">
+        <div class="block">
+            <h:outputText value="#{clockBean.currentTime}" id="clock" />
+            <p:poll interval="12" update="clock" listener="#{clockBean.updateTime}" />
+        </div>
+
+        <div class="block">
+            <h:form>
+                <h:button value="Move to main page" outcome="mvToMainPage"/>
+            </h:form>
+        </div>
+
+    </div>
+
+</h:body>
+
+</html>

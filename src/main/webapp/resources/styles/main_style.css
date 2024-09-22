@@ -1,0 +1,69 @@
+body{
+    background: url("#{resource['background6.jpg']}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.header {
+    color: white;
+    font-family: sans-serif;
+    font-size: 30px;
+    text-align: center;
+    height: 50px;
+}
+
+.block-container {
+    display: flex;
+    font-size: 15px;
+    flex-wrap: wrap;
+}
+
+.block {
+    border-radius: 10px;
+    margin: 10px;
+    padding: 15px;
+    display: inline;
+    background-color: #f0f0f0;
+}
+
+#table {
+    text-align: center;
+    width: 550px;
+    display: block;
+    border-collapse: collapse;
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+button::selection {
+    background-color: red;
+}
+table, th, td {
+    border: 1px solid black;
+}
+
+#error {
+    color: red;
+}
+
+.default-but{
+    background-color: #3399ff;
+}
+
+.pressed-but{
+    background-color: red;
+}
+
+input[type="button"]:not([name="x"]){
+    background-color: #3399ff;
+}
+
+input[id="submit"]:hover {
+    cursor: pointer;
+}
+
+.block img {
+    display: block;
+    margin: 0 auto;
+}
+
