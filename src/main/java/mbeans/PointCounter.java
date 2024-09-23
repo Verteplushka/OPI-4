@@ -1,6 +1,7 @@
 package mbeans;
 
 import database.DotEntityManager;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
 import jakarta.faces.bean.ApplicationScoped;

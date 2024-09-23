@@ -8,6 +8,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "dots", schema = "s367300")
 public class Dot implements Serializable {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

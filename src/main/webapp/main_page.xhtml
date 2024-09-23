@@ -70,14 +70,10 @@
                 <br/>
 
                 <h:commandButton value="submit" action="#{paramBean.addDotButton()}" onclick="return checkY()">
-                    <f:actionListener binding="#{dotsAmountBean.updateDots()}" />
-                    <f:actionListener binding="#{dotsPercentsBean.updatePercent()}" />
-                    <p:ajax update="valuesTable dotsAmount dotsPercents" oncomplete="redrawPicture()" />
+                    <p:ajax update="valuesTable" oncomplete="redrawPicture()" />
                 </h:commandButton>
                 <h:commandButton value="clear table" action="#{paramBean.clear()}">
-                    <f:actionListener binding="#{dotsAmountBean.updateDots()}" />
-                    <f:actionListener binding="#{dotsPercentsBean.updatePercent()}" />
-                    <p:ajax update="valuesTable dotsAmount dotsPercents" oncomplete="redrawPicture()"/>
+                    <p:ajax update="valuesTable" oncomplete="redrawPicture()"/>
                 </h:commandButton>
                 <br/>
                 <br/>
@@ -86,18 +82,10 @@
                 <br/>
                 <br/>
 
-                <span>
-                    <h:outputText id="dotsAmount" value="#{pointCounter.totalPoints}"/>
-                    <h:outputText id="dotsPercents" value="#{missPercentage.hitPercent}"/>
-                </span>
-
                 <h:inputHidden id="hiddenX" value="#{graphBean.x}" />
                 <h:inputHidden id="hiddenY" value="#{graphBean.y}" />
                 <h:inputHidden id="hiddenR" value="#{graphBean.r}" />
-                <p:remoteCommand name="callAddDot" action="#{paramBean.addDotMouse(graphBean.x, graphBean.y, graphBean.r)}" update="valuesTable dotsAmount dotsPercents" oncomplete="redrawPicture()" >
-                    <f:actionListener binding="#{dotsAmountBean.updateDots()}" />
-                    <f:actionListener binding="#{dotsPercentsBean.updatePercent()}" />
-                </p:remoteCommand>
+                <p:remoteCommand name="callAddDot" action="#{paramBean.addDotMouse(graphBean.x, graphBean.y, graphBean.r)}" update="valuesTable" oncomplete="redrawPicture()" />
 
             </h:form>
         </div>
